@@ -1,0 +1,29 @@
+generator client {
+  provider = "prisma-client-js"
+  output="./generated/client2"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = "postgres://mypxopexngrzyb:6aec5838ce261b2847967a4582eff6db69e977e5aeb64a2409fe5b67a59437f8@ec2-3-219-19-205.compute-1.amazonaws.com:5432/d5qt5l4bfd0v9p"
+}
+
+model User {
+  id       String  @id @default(cuid())
+  username String  @unique
+  title    String
+  name     String
+  surname  String
+  orders   Order[]
+
+  @@map("users")
+}
+
+model Order {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  products  String
+  buyerId   String?
+  buyer     User?    @relation(fields: [buyerId], references: [id])
+}

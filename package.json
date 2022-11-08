@@ -1,0 +1,21 @@
+{
+    "private": true,
+    "workspaces": [
+        "./checkout",
+        "./home",
+        "./shared",
+        "./shop",
+        "./xhome",
+        "./orders",
+        "./itemcatalogue"
+    ],
+    "scripts": {
+        "start2": "concurrently \"cd orders; npm run dev\" \"cd xhome; npm run dev\" \"cd itemcatalogue; npm run dev\"",
+        "start": "concurrently \"cd checkout; npm run dev\" \"cd home; npm run dev\" \"cd shop; npm run dev\"",
+        "build": "concurrently \"cd checkout; npm run build\" \"cd home; npm run build\" \"cd shop; npm run build\"",
+        "serve": "concurrently \"cd checkout; npm run start\" \"cd home; npm run start\" \"cd shop; npm run start\""
+    },
+    "dependencies": {
+        "concurrently": "^7.0.0"
+    }
+}
