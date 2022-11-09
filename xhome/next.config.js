@@ -8,6 +8,7 @@ const remotes = (isServer) => {
         home: `home@http://localhost:3001/_next/static/${location}/remoteEntry.js`,
         orders: `orders@http://localhost:3002/_next/static/${location}/remoteEntry.js`,
         itemcatalogue: `itemcatalogue@http://localhost:3000/_next/static/${location}/remoteEntry.js`,
+        api: `api@http://localhost:3004/_next/static/${location}/remoteEntry.js`,
     };
 };
 module.exports = {

@@ -11,17 +11,19 @@ const remotes = (isServer) => {
         api: `api@http://localhost:3004/_next/static/${location}/remoteEntry.js`,
     };
 };
+const prismaClientPath =
+    '/Users/k/Desktop/PROYECTOS/NODE/training-salesapp/prisma/prisma/generated/client';
 module.exports = {
     webpack5: true,
     webpack(config, options) {
         config.plugins.push(
             new NextFederationPlugin(
                 {
-                    name: 'itemcatalogue',
+                    name: 'store',
                     filename: 'static/chunks/remoteEntry.js',
                     exposes: {
-                        //'./nav': './components/nav.jsx',
-                        './itemcatalogue': './async-pages/index.jsx',
+                        './store': './redux/store.jsx',
+                        './home': './async-pages/index.jsx',
                         './pages-map': './pages-map.js',
                     },
                     remotes: remotes(options.isServer),
@@ -45,16 +47,16 @@ module.exports = {
             )
         );
 
-        // config.externals.unshift(({ context, request }, callback) => {
-        //   // Work-around for Prisma "Could not open datamodel file"  error
-        //   if (request === 'prisma/client') {
-        //     return callback(null, `commonjs ${prismaClientPath}`);
-        //   }
-        //   if (request === './runtime' && context === prismaClientPath) {
-        //     return callback(null, `commonjs ${prismaClientPath}/runtime`);
-        //   }
-        //   callback();
-        // });
+        config.externals.unshift(({ context, request }, callback) => {
+            // Work-around for Prisma "Could not open datamodel file"  error
+            if (request === 'prisma/client') {
+                return callback(null, `commonjs ${prismaClientPath}`);
+            }
+            if (request === './runtime' && context === prismaClientPath) {
+                return callback(null, `commonjs ${prismaClientPath}/runtime`);
+            }
+            callback();
+        });
 
         return config;
     },
